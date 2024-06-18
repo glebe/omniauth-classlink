@@ -22,7 +22,7 @@ First, you need to have your OAuth2 application registered in ClassLink. After c
 
 ```ruby
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :class_link, 'your-classlink-access-key', 'your-classlink-secret', strategy_class: 'OmniAuth::Strategies::ClassLink'
+  provider :class_link, 'your-classlink-access-key', 'your-classlink-secret', name: 'class_link', strategy_class: 'OmniAuth::Strategies::ClassLink'
 end
 ```
 
@@ -32,7 +32,20 @@ Or, alternatively, if you use [Devise](https://github.com/plataformatec/devise),
  config.omniauth :class_link,
                  'your-classlink-access-key',
                  'your-classlink-secret',
-                 strategy_class: 'OmniAuth::Strategies::ClassLink'
+                 name: 'class_link'
+```
+
+Add to your user model's devise:
+```
+    devise
+      :omniauthable,
+      omniauth_providers: %i[class_link]
+```
+
+Place this link where you want to use it:
+
+```
+= link_to 'Sign in with Classlink', omniauth_authorize_path(:user, :class_link)
 ```
 
 # Contributing
